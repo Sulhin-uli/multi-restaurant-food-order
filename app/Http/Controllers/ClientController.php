@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Mail\Websiteemail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class ClientController extends Controller
@@ -149,7 +149,7 @@ class ClientController extends Controller
 
         $profileData = Client::find($id);
 
-        return view('client.change_password', compact('profileData'));
+        return view('client.client_change_password', compact('profileData'));
     }
 
     public function ClientPasswordUpdate(Request $request)
