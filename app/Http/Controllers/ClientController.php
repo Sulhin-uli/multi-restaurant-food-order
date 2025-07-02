@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mail\Websiteemail;
+use App\Models\City;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
@@ -86,11 +87,13 @@ class ClientController extends Controller
 
     public function  ClientProfile()
     {
+        $city = City::latest()->get();
+
         $id = Auth::guard('client')->id();
 
         $profileData = Client::find($id);
 
-        return view('client.client_profile', compact('profileData'));
+        return view('client.client_profile', compact('profileData', 'city'));
     }
 
     public function ClientProfileStore(Request $request)
@@ -107,6 +110,10 @@ class ClientController extends Controller
 
         $data->address = $request->address;
 
+        $data->city_id = $request->city_id;
+
+        $data->shop_info = $request->shop_info;
+
         $oldPhotoPath = $data->photo;
 
         if ($request->hasFile('photo')) {
@@ -122,6 +129,17 @@ class ClientController extends Controller
             if ($oldPhotoPath && $oldPhotoPath !== $filename) {
                 $this->deleteOldImage($oldPhotoPath);
             }
+        }
+
+        if ($request->hasFile('cover_photo')) {
+
+            $fileCover = $request->file('cover_photo');
+
+            $filenameCover = time() . '.' . $fileCover->getClientOriginalExtension();
+
+            $fileCover->move(public_path('upload/client_images'), $filenameCover);
+
+            $data->cover_photo =  $filenameCover;
         }
 
         $data->save();
