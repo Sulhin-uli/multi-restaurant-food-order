@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('token')->nullable();
             $table->string('photo')->nullable();
-            $table->string('phone')->nullable();
             $table->string('address')->nullable();
+            $table->integer('city_id')->length(255)->nullable();
+            $table->text('shop_info')->nullable();
+            $table->string('cover_photo', 255)->nullable();
             $table->string('role')->default('client');
             $table->string('status')->default('1');
             $table->rememberToken();
