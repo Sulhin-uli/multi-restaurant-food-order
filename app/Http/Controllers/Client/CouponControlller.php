@@ -12,7 +12,9 @@ class CouponControlller extends Controller
 {
     public function AllCoupon()
     {
-        $coupon = Coupon::latest()->get();
+        $client_id = Auth::guard('client')->id();
+
+        $coupon = Coupon::where('client_id', $client_id)->latest()->get();
 
         return view('client.backend.coupon.all_coupon', compact('coupon'));
     } // End Methode

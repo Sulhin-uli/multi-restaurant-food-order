@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ManageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Client\CouponControlller;
 use App\Http\Controllers\Client\RestaurantController;
@@ -116,6 +117,23 @@ Route::middleware('admin')->group(function () {
 
         Route::get('/delete/city/{id}', 'DeleteCity')->name('delete.city');
     });
+
+    Route::controller(ManageController::class)->group(function () {
+
+        Route::get('/admin/all/product', 'AdminAllProduct')->name('admin.all.product');
+
+        Route::get('/admin/add/product', 'AdminAddProduct')->name('admin.add.product');
+
+        Route::post('/admin/store/product', 'AdminStoreProduct')->name('admin.product.store');
+
+        Route::get('/admin/edit/product/{id}', 'AdminEditProduct')->name('admin.edit.product');
+
+        Route::post('/admin/update/product', 'AdminUpdateProduct')->name('admin.product.update');
+
+        Route::get('/admin/delete/product/{id}', 'AdminDeleteProduct')->name('admin.delete.product');
+
+        // Route::get('/changeStatus', 'changeStatus');
+    });
 }); // End Admin Middleware
 
 
@@ -151,7 +169,7 @@ Route::middleware('client')->group(function () {
 
         Route::get('/delete/product/{id}', 'DeleteProduct')->name('delete.product');
 
-        Route::get('/changeStatus', 'changeStatus');
+        // Route::get('/changeStatus', 'changeStatus');
     });
 
     Route::controller(RestaurantController::class)->group(function () {
@@ -184,3 +202,6 @@ Route::middleware('client')->group(function () {
         Route::get('/delete/coupon/{id}', 'DeleteCoupon')->name('delete.coupon');
     });
 }); // End Client Middleware
+
+// that will be for all user
+Route::get('/changeStatus', [RestaurantController::class, 'ChangeStatus']);

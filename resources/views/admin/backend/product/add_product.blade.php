@@ -1,5 +1,5 @@
-@extends('client.client_dashboard')
-@section('client')
+@extends('admin.admin_dashboard')
+@section('admin')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -29,11 +29,11 @@
                 <div class="card">
 
                     <div class="card-body p-4">
-                        <form id="myForm" method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
+                        <form id="myForm" method="POST" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="row">
-                                <div class="col-xl-4 col-lg-6">
+                                <div class="col-xl-3 col-lg-6">
                                     <div>
                                         <div class="form-group mb-3">
                                             <label for="example-text-input" class="form-label">Category Name</label>
@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6">
+                                <div class="col-xl-3 col-lg-6">
                                     <div>
                                         <div class="form-group mb-3">
                                             <label for="example-text-input" class="form-label">Menu Name</label>
@@ -55,6 +55,20 @@
                                                 <option selected="" disabled="" >Select</option>
                                                 @foreach ($menu as $men)
                                                     <option value="{{ $men->id }}">{{ $men->menu_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>         
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-6">
+                                    <div>
+                                        <div class="form-group mb-3">
+                                            <label for="example-text-input" class="form-label">Client Name</label>
+                                            <select name="client_id" class="form-select">
+                                                <option selected="" disabled="" >Select</option>
+                                                @foreach ($client as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>         
