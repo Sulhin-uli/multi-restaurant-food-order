@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Client;
@@ -169,4 +170,130 @@ class ManageController extends Controller
 
         return redirect()->back()->with($notification);
     } // End Methode
+
+    ////// For All Pending and Approve Restaurant Methode
+
+    public function PendingRestaurant()
+    {
+        $client = Client::where('status', 0)->get();
+
+        return view('admin.backend.restaurant.pending_restaurant', compact('client'));
+    }
+
+    public function ApproveRestaurant()
+    {
+        $client = Client::where('status', 1)->get();
+
+        return view('admin.backend.restaurant.approve_restaurant', compact('client'));
+    }
+
+    public function ClientChangeStatus(Request $request)
+    {
+        $client = Client::find($request->client_id);
+
+        $client->status = $request->status;
+
+        $client->save();
+
+        return response()->json(['success' => "Status Change Successfully"]);
+    } // End Methode
+
+    // All methode banner in here
+    public function AllBanner()
+    {
+        $banner = Banner::latest()->get();
+        return view('admin.backend.banner.all_banner', compact('banner'));
+    }
+
+    public function BannerStore(Request $request)
+    {
+
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' .
+                $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(400, 400)->save(public_path('upload/banner/' . $name_gen));
+            $save_url = 'upload/banner/' . $name_gen;
+
+            Banner::create([
+                'url' => $request->url,
+                'image' => $save_url,
+            ]);
+        }
+
+        $notification = array(
+            'message' => 'Banner Inserted Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
+    } // End Method
+
+    public function EditBanner($id)
+    {
+        $banner = Banner::find($id);
+
+        if ($banner) {
+            $banner->image = asset($banner->image);
+        }
+
+        return response()->json($banner);
+    }
+
+    public function BannerUpdate(Request $request)
+    {
+        $banner_id = $request->banner_id;
+
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' .
+                $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(400, 400)->save(public_path('upload/banner/' . $name_gen));
+            $save_url = 'upload/banner/' . $name_gen;
+
+            Banner::find($banner_id)->update([
+                'url' => $request->url,
+                'image' => $save_url,
+            ]);
+
+            $notification = array(
+                'message' => 'Banner Updated Successfully',
+                'alert-type' => 'success',
+            );
+
+            return redirect()->route('all.banner')->with($notification);
+        } else {
+
+            Banner::find($banner_id)->update([
+                'url' => $request->url,
+            ]);
+
+            $notification = array(
+                'message' => 'Banner Updated Successfully',
+                'alert-type' => 'success',
+            );
+
+            return redirect()->route('all.banner')->with($notification);
+        }
+    } // End Method
+
+    public function DeleteBanner($id)
+    {
+        $item = Banner::find($id);
+        // $img = $item->image;
+        // unlink($img);
+
+        Banner::find($id)->delete();
+
+        $notification = array(
+            'message' => 'Banner Deleted Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
+    } // End Method
 }
