@@ -284,8 +284,8 @@ class ManageController extends Controller
     public function DeleteBanner($id)
     {
         $item = Banner::find($id);
-        // $img = $item->image;
-        // unlink($img);
+        $img = $item->image;
+        unlink($img);
 
         Banner::find($id)->delete();
 
