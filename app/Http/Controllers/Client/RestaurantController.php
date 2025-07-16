@@ -316,7 +316,7 @@ class RestaurantController extends Controller
 
             $img = $manager->read($image);
 
-            $img->resize(500, 500)->save(public_path('upload/gallery/' . $name_gen));
+            $img->resize(800, 800)->save(public_path('upload/gallery/' . $name_gen));
 
             $save_url = 'upload/gallery/' . $name_gen;
 
@@ -353,7 +353,7 @@ class RestaurantController extends Controller
             $name_gen = hexdec(uniqid()) . '.' .
                 $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(500, 500)->save(public_path('upload/gallery/' . $name_gen));
+            $img->resize(800, 800)->save(public_path('upload/gallery/' . $name_gen));
             $save_url = 'upload/gallery/' . $name_gen;
 
             $gallery =  Gallery::find($gallery_id);
