@@ -18,7 +18,7 @@
             <div class="osahan-account-page-right rounded shadow-sm bg-white p-4 h-100">
                 <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-                    <h4 class="font-weight-bold mt-0 mb-4">Change Password Profile</h4>
+                    <h4 class="font-weight-bold mt-0 mb-4">Change Password  </h4>
                     <div class="bg-white card mb-4 order-list shadow-sm">
                         <div class="gold-members p-4">
                             <form action="{{ route('user.password.update') }}" method="POST" enctype="multipart/form-data">
