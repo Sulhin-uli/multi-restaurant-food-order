@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Client\CouponControlller;
 use App\Http\Controllers\Client\RestaurantController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -236,4 +237,9 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/restaurant/details/{id}', 'RestaurantDetails')->name('res.details');
 
     Route::post('/add-wish-list/{id}', 'AddWishList');
+});
+
+Route::controller(CartController::class)->group(function () {
+
+    Route::get('/add_to_cart/{id}', 'AddToCart')->name('add_to_cart');
 });

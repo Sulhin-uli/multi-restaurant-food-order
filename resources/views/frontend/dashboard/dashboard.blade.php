@@ -24,6 +24,9 @@
       <link rel="stylesheet" href="{{ asset('frontend/vendor/owl-carousel/owl.carousel.css') }}">
       <link rel="stylesheet" href="{{ asset('frontend/vendor/owl-carousel/owl.theme.css') }}">
 
+      {{-- toaster  --}}
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+
    </head>
    <body>
 
@@ -43,5 +46,31 @@
       <script src="{{ asset('frontend/vendor/owl-carousel/owl.carousel.js') }}"></script>
       <!-- Custom scripts for all pages-->
       <script src="{{ asset('frontend/js/custom.js') }}"></script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+      <script>
+      @if(Session::has('message'))
+      var type = "{{ Session::get('alert-type','info') }}"
+      switch(type){
+         case 'info':
+         toastr.info(" {{ Session::get('message') }} ");
+         break;
+
+         case 'success':
+         toastr.success(" {{ Session::get('message') }} ");
+         break;
+
+         case 'warning':
+         toastr.warning(" {{ Session::get('message') }} ");
+         break;
+
+         case 'error':
+         toastr.error(" {{ Session::get('message') }} ");
+         break; 
+      }
+      @endif 
+      </script>
    </body>
 </html>
